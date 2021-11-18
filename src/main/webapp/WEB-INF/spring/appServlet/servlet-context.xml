@@ -25,18 +25,32 @@
 	
 	<beans:bean id="memberInterceptor" class="com.care.root.member.interceptor.MemberInterceptor" />        
 	<beans:bean id="bti" 
-	class="com.care.root.testboard.BoardTestInterceptor" />        
+	class="com.care.root.testboard.BoardTestInterceptor" />    
+	<beans:bean id="autoLogin" 
+		class="com.care.root.member.interceptor.AutoLoginInterceptor" />    
 	<interceptors>
         <interceptor>
           <!--    <mapping path="/member/main"/> -->
+          		<mapping path="/member/main"/>
+                <beans:ref bean="autoLogin"/>
+        </interceptor>
+        <interceptor>
+          <!--    <mapping path="/member/main"/> -->
           		<mapping path="/member/memberInfo"/>
+          		<mapping path="/board/writeForm"/>
                 <beans:ref bean="memberInterceptor"/>
         </interceptor>
         <interceptor>
           <!--    <mapping path="/member/main"/> -->
           		<mapping path="/test/board"/>
+          		<mapping path="/test/write"/>
                 <beans:ref bean="bti"/>
         </interceptor>
 </interceptors>
+	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+                <beans:property name="maxUploadSize" value="52428800"/>
+                <beans:property name="defaultEncoding" value="utf-8"/>
+        </beans:bean>
+
 	
 </beans:beans>
