@@ -26,8 +26,8 @@ import com.care.root.board.service.BoardService;
 public class BoardController {
 	@Autowired BoardService bs;
 	@GetMapping("boardAllList")
-	public String selectAllboardList(Model model) {
-		bs.selectAllboardList(model);
+	public String selectAllboardList(Model model, @RequestParam(required = false, defaultValue= "1")int num) {
+		bs.selectAllboardList(model, num);
 
 		return "board/boardAllList";
 	}
@@ -78,6 +78,23 @@ public class BoardController {
 	  out.println(message);
 	}
 
+		
+	@GetMapping("modify_form")	// 수정하기
+	public String modify_form(@RequestParam int writeNo, Model model) {
+		bs.getData(writeNo, model);
+		return "board/modify_form";
+	}
+
+	@PostMapping("modify")
+	public void modify(MultipartHttpServletRequest mul,
+	    HttpServletResponse response,
+	  HttpServletRequest request) throws IOException {
+	  String message = bs.modify(mul, request);
+	  PrintWriter out=null;
+	  response.setContentType("text/html; charset=utf-8");
+	  out = response.getWriter();
+	  out.println(message);
+	}
 
 
 
